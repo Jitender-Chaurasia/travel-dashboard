@@ -1,7 +1,8 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vianaar Travel Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -47,7 +48,7 @@ footer{text-align:center;padding:20px;color:#475569;font-size:.78rem;border-top:
 <body>
 <header>
   <div>
-    <h1>&#9992;&#65039; Vianaar Travel &amp; Stay Dashboard</h1>
+    <h1>&#9992; Vianaar Travel &amp; Stay Dashboard</h1>
     <div class="sub">Corporate Travel Report &middot; <span id="rangeLabel">All Time</span></div>
   </div>
   <div class="date-picker">
@@ -61,12 +62,12 @@ footer{text-align:center;padding:20px;color:#475569;font-size:.78rem;border-top:
 </header>
 <div class="container">
   <div class="kpi-grid">
-    <div class="kpi" style="--accent:#3B82F6"><div class="label">Grand Total Spend</div><div class="value" id="kpi-grand">&#8212;</div><div class="sub">Flights + Hotels combined</div></div>
-    <div class="kpi" style="--accent:#8B5CF6"><div class="label">Flight Spend</div><div class="value" id="kpi-flight">&#8212;</div><div class="sub" id="kpi-flight-sub">&#8212; bookings</div></div>
-    <div class="kpi" style="--accent:#F59E0B"><div class="label">Hotel Spend</div><div class="value" id="kpi-hotel">&#8212;</div><div class="sub" id="kpi-hotel-sub">&#8212; bookings</div></div>
-    <div class="kpi" style="--accent:#06B6D4"><div class="label">Avg Hotel / Night</div><div class="value" id="kpi-avg-hotel">&#8212;</div><div class="sub">Per night</div></div>
-    <div class="kpi" style="--accent:#EF4444"><div class="label">Avg Flight Ticket</div><div class="value" id="kpi-avg-flight">&#8212;</div><div class="sub">Per booking</div></div>
-    <div class="kpi" style="--accent:#10B981"><div class="label">Completed Flights</div><div class="value" id="kpi-completed">&#8212;</div><div class="sub" id="kpi-completed-sub">&#8212; pending</div></div>
+    <div class="kpi" style="--accent:#3B82F6"><div class="label">Grand Total Spend</div><div class="value" id="kpi-grand">-</div><div class="sub">Flights + Hotels combined</div></div>
+    <div class="kpi" style="--accent:#8B5CF6"><div class="label">Flight Spend</div><div class="value" id="kpi-flight">-</div><div class="sub" id="kpi-flight-sub">- bookings</div></div>
+    <div class="kpi" style="--accent:#F59E0B"><div class="label">Hotel Spend</div><div class="value" id="kpi-hotel">-</div><div class="sub" id="kpi-hotel-sub">- bookings</div></div>
+    <div class="kpi" style="--accent:#06B6D4"><div class="label">Avg Hotel / Night</div><div class="value" id="kpi-avg-hotel">-</div><div class="sub">Per night</div></div>
+    <div class="kpi" style="--accent:#EF4444"><div class="label">Avg Flight Ticket</div><div class="value" id="kpi-avg-flight">-</div><div class="sub">Per booking</div></div>
+    <div class="kpi" style="--accent:#10B981"><div class="label">Completed Flights</div><div class="value" id="kpi-completed">-</div><div class="sub" id="kpi-completed-sub">- pending</div></div>
   </div>
   <div class="chart-grid cols-2">
     <div class="chart-card"><h3>Flight Spend by Cost Center</h3><canvas id="deptFlightChart"></canvas></div>
@@ -82,28 +83,128 @@ footer{text-align:center;padding:20px;color:#475569;font-size:.78rem;border-top:
     <div class="chart-card"><h3>Cost Center Summary</h3><table><thead><tr><th>Cost Center</th><th>Flight</th><th>Hotel</th><th>Total</th></tr></thead><tbody id="costCenterBody"></tbody></table></div>
   </div>
   <div style="margin-bottom:28px"><div class="chart-card"><h3>Booking Lead Time &mdash; Days Between Booking &amp; Travel Date &nbsp;<span id="shortNoticeLabel" style="background:#7F1D1D;color:#FCA5A5;padding:3px 10px;border-radius:12px;font-size:.75rem;font-weight:600"></span></h3><table><thead><tr><th>Traveler</th><th>Sector</th><th>Airline</th><th>Booked On</th><th>Travel Date</th><th>Lead Days</th><th>Fare</th></tr></thead><tbody id="leadTimeBody"></tbody></table></div></div>
-  <div style="margin-bottom:28px"><div class="chart-card"><h3>Month-on-Month Trend &mdash; Flight &amp; Hotel Bookings vs. Total Spend</h3><canvas id="momChart" class="mom-canvas"></canvas></div></div>
+  <div style="margin-bottom:28px"><div class="chart-card"><h3>Month-on-Month Trend &mdash; Flight &amp; Hotel Spend</h3><canvas id="momChart" class="mom-canvas"></canvas></div></div>
 </div>
-<footer>Vianaar Homes Pvt Ltd &middot; Thomas Cook Travel Portal &middot; Dashboard generated on 03 Jun 2026, 06:56 PM</footer>
+<footer>Vianaar Homes Pvt Ltd &middot; Thomas Cook Travel Portal &middot; Dashboard generated on 04 Jun 2026, 10:24 AM</footer>
 <script>
 const ALL_FL = [{"n": "Mr Nikhil Mishra", "cc": "SALES", "al": "IndiGo", "fr": "Goa (North)", "to": "New Delhi", "sc": "GOX - DEL", "f": 7893.0, "ts": "COMPLETED", "bd": "2026-05-13", "dd": "2026-05-17"}, {"n": "Mrs Shilpa Khanna", "cc": "CEOS OFFICE", "al": "Akasa Air", "fr": "New Delhi", "to": "Goa (North)", "sc": "DEL - GOX", "f": 8408.0, "ts": "COMPLETED", "bd": "2026-05-13", "dd": "2026-05-25"}, {"n": "Mrs Shilpa Khanna", "cc": "CEOS OFFICE", "al": "IndiGo", "fr": "Goa (North)", "to": "New Delhi", "sc": "GOX - DEL", "f": 5798.0, "ts": "COMPLETED", "bd": "2026-05-13", "dd": "2026-05-29"}, {"n": "Mr Akshay Chaudhry", "cc": "PROJECTS", "al": "Air India Express", "fr": "New Delhi", "to": "Goa (North)", "sc": "DEL - GOX", "f": 5770.0, "ts": "COMPLETED", "bd": "2026-05-14", "dd": "2026-05-18"}, {"n": "Mr Rohit Kumar", "cc": "PROJECTS", "al": "IndiGo", "fr": "New Delhi", "to": "Goa (North)", "sc": "DEL - GOX", "f": 5467.0, "ts": "COMPLETED", "bd": "2026-05-18", "dd": "2026-06-01"}, {"n": "Mr Rohit Kumar", "cc": "PROJECTS", "al": "IndiGo", "fr": "Hyderabad", "to": "Chandigarh", "sc": "HYD - IXC", "f": 9213.0, "ts": "PENDING", "bd": "2026-05-18", "dd": "2026-06-13"}, {"n": "Mr Estevan Cardozo", "cc": "LEGAL", "al": "IndiGo", "fr": "Goa", "to": "Mumbai", "sc": "GOI - BOM", "f": 7271.0, "ts": "COMPLETED", "bd": "2026-05-18", "dd": "2026-05-19"}, {"n": "Ms Shivani Bharti", "cc": "FACILITIES", "al": "Air India", "fr": "Goa (North)", "to": "New Delhi", "sc": "GOX - DEL", "f": 5855.0, "ts": "COMPLETED", "bd": "2026-05-19", "dd": "2026-05-22"}, {"n": "Ms Shivani Bharti", "cc": "FACILITIES", "al": "Akasa Air", "fr": "New Delhi", "to": "Goa (North)", "sc": "DEL - GOX", "f": 8789.0, "ts": "COMPLETED", "bd": "2026-05-19", "dd": "2026-05-27"}, {"n": "Mr Estevan Cardozo", "cc": "LEGAL", "al": "IndiGo", "fr": "Mumbai", "to": "Goa", "sc": "BOM - GOI", "f": 10084.0, "ts": "COMPLETED", "bd": "2026-05-20", "dd": "2026-05-20"}, {"n": "Mr Piyush Goel", "cc": "PURCHASE", "al": "Air India", "fr": "New Delhi", "to": "Goa (North)", "sc": "DEL - GOX", "f": 9159.0, "ts": "COMPLETED", "bd": "2026-05-20", "dd": "2026-05-22"}, {"n": "Mr Piyush Goel", "cc": "PURCHASE", "al": "IndiGo", "fr": "Goa (North)", "to": "New Delhi", "sc": "GOX - DEL", "f": 7542.0, "ts": "COMPLETED", "bd": "2026-05-20", "dd": "2026-06-02"}, {"n": "Ms Ragini Abichandani", "cc": "PROJECTS", "al": "Akasa Air", "fr": "Goa (North)", "to": "New Delhi", "sc": "GOX - DEL", "f": 11060.0, "ts": "COMPLETED", "bd": "2026-05-20", "dd": "2026-05-24"}, {"n": "Ms Ragini Abichandani", "cc": "PROJECTS", "al": "Akasa Air", "fr": "New Delhi", "to": "Goa (North)", "sc": "DEL - GOX", "f": 9492.0, "ts": "COMPLETED", "bd": "2026-05-20", "dd": "2026-05-27"}, {"n": "Mrs Ruchi Dewan", "cc": "SALES", "al": "IndiGo", "fr": "Goa", "to": "New Delhi", "sc": "GOX - DEL", "f": 10367.0, "ts": "PENDING", "bd": "2026-05-21", "dd": "2026-06-08"}, {"n": "Mrs Ruchi Dewan", "cc": "SALES", "al": "Akasa Air", "fr": "New Delhi", "to": "Goa (North)", "sc": "DEL - GOX", "f": 8500.0, "ts": "COMPLETED", "bd": "2026-05-21", "dd": "2026-05-30"}, {"n": "Mr Kunal Anand", "cc": "PMO", "al": "Air India Express", "fr": "New Delhi", "to": "Goa (North)", "sc": "DEL - GOX", "f": 6473.0, "ts": "COMPLETED", "bd": "2026-05-21", "dd": "2026-05-27"}, {"n": "Mr Kunal Anand", "cc": "PMO", "al": "IndiGo", "fr": "Goa (North)", "to": "New Delhi", "sc": "GOX - DEL", "f": 8411.0, "ts": "PENDING", "bd": "2026-05-21", "dd": "2026-06-06"}, {"n": "Mr Vikas Jangid", "cc": "PMO", "al": "Air India Express", "fr": "New Delhi", "to": "Goa (North)", "sc": "DEL - GOX", "f": 6473.0, "ts": "COMPLETED", "bd": "2026-05-21", "dd": "2026-05-27"}, {"n": "Mr Vikas Jangid", "cc": "PMO", "al": "IndiGo", "fr": "Goa (North)", "to": "New Delhi", "sc": "GOX - DEL", "f": 8411.0, "ts": "PENDING", "bd": "2026-05-21", "dd": "2026-06-06"}, {"n": "Mr Akshay Chaudhry", "cc": "PROJECTS", "al": "Air India Express", "fr": "Goa (North)", "to": "New Delhi", "sc": "GOX - DEL", "f": 6098.0, "ts": "COMPLETED", "bd": "2026-05-21", "dd": "2026-05-22"}, {"n": "Mr Savio Monteiro", "cc": "LEGAL", "al": "IndiGo", "fr": "Goa (North)", "to": "New Delhi", "sc": "GOX - DEL", "f": 11753.0, "ts": "COMPLETED", "bd": "2026-05-21", "dd": "2026-05-25"}, {"n": "Mr Savio Monteiro", "cc": "LEGAL", "al": "Akasa Air", "fr": "New Delhi", "to": "Goa (North)", "sc": "DEL - GOX", "f": 9492.0, "ts": "COMPLETED", "bd": "2026-05-21", "dd": "2026-05-27"}, {"n": "Mr Balvinder Singh Galla", "cc": "PROJECTS", "al": "Akasa Air", "fr": "Goa (North)", "to": "New Delhi", "sc": "GOX - DEL", "f": 6312.0, "ts": "COMPLETED", "bd": "2026-05-22", "dd": "2026-05-23"}, {"n": "Mr Rudrankk Banerjii", "cc": "SALES", "al": "IndiGo", "fr": "New Delhi", "to": "Goa (North)", "sc": "DEL - GOX", "f": 8293.0, "ts": "PENDING", "bd": "2026-05-22", "dd": "2026-06-08"}, {"n": "Mr Rudrankk Banerjii", "cc": "SALES", "al": "Air India Express", "fr": "Goa (North)", "to": "New Delhi", "sc": "GOX - DEL", "f": 8266.0, "ts": "PENDING", "bd": "2026-05-22", "dd": "2026-06-12"}, {"n": "Mr Estevan Cardozo", "cc": "LEGAL", "al": "IndiGo", "fr": "Goa", "to": "Mumbai", "sc": "GOI - BOM", "f": 9390.0, "ts": "COMPLETED", "bd": "2026-05-26", "dd": "2026-05-27"}, {"n": "Ms Tanvi Gupta", "cc": "PMO", "al": "IndiGo", "fr": "Goa", "to": "New Delhi", "sc": "GOI - DEL", "f": 7058.0, "ts": "PENDING", "bd": "2026-05-28", "dd": "2026-06-10"}, {"n": "Ms Tanvi Gupta", "cc": "PMO", "al": "IndiGo", "fr": "New Delhi", "to": "Goa (North)", "sc": "DEL - GOX", "f": 8887.0, "ts": "COMPLETED", "bd": "2026-05-28", "dd": "2026-06-02"}, {"n": "Ms Nicky Singh", "cc": "MARKETING", "al": "Akasa Air", "fr": "New Delhi", "to": "Goa (North)", "sc": "DEL - GOX", "f": 11678.0, "ts": "COMPLETED", "bd": "2026-05-29", "dd": "2026-06-02"}, {"n": "Ms Nicky Singh", "cc": "MARKETING", "al": "Air India Express", "fr": "Goa (North)", "to": "New Delhi", "sc": "GOX - DEL", "f": 11619.0, "ts": "PENDING", "bd": "2026-05-29", "dd": "2026-06-05"}, {"n": "Mrs Ruchi Dewan", "cc": "SALES", "al": "IndiGo", "fr": "Goa", "to": "New Delhi", "sc": "GOI - DEL", "f": 10426.0, "ts": "PENDING", "bd": "2026-05-30", "dd": "2026-06-08"}, {"n": "Ms Mahima Dhawan", "cc": "MARKETING", "al": "IndiGo", "fr": "New Delhi", "to": "Mumbai", "sc": "DEL - NMI", "f": 8735.0, "ts": "PENDING", "bd": "2026-06-02", "dd": "2026-06-09"}, {"n": "Ms Mahima Dhawan", "cc": "MARKETING", "al": "IndiGo", "fr": "Mumbai", "to": "New Delhi", "sc": "BOM - DEL", "f": 9523.0, "ts": "PENDING", "bd": "2026-06-02", "dd": "2026-06-09"}, {"n": "Ms Nicky Singh", "cc": "MARKETING", "al": "IndiGo", "fr": "New Delhi", "to": "Mumbai", "sc": "DEL - NMI", "f": 9098.0, "ts": "PENDING", "bd": "2026-06-02", "dd": "2026-06-09"}, {"n": "Ms Nicky Singh", "cc": "MARKETING", "al": "IndiGo", "fr": "Mumbai", "to": "New Delhi", "sc": "BOM - DEL", "f": 9565.0, "ts": "PENDING", "bd": "2026-06-02", "dd": "2026-06-09"}];
 const ALL_HO = [{"n": "Mr Nikhil Mishra", "cc": "SALES", "hn": "Shervani Hotel Nehru Place", "f": 15116.0, "ni": 4.0, "bd": "2026-05-13"}, {"n": "Mr Domesh Shastri", "cc": "DESIGN", "hn": "Rosetum Anjuna", "f": 11552.0, "ni": 4.0, "bd": "2026-05-18"}, {"n": "Mr Prem Negi", "cc": "DESIGN", "hn": "Rosetum Anjuna", "f": 11552.0, "ni": 4.0, "bd": "2026-05-18"}, {"n": "Ms Shivani Bharti", "cc": "FACILITIES", "hn": "The Suryaa New Delhi", "f": 21468.0, "ni": 3.0, "bd": "2026-05-19"}, {"n": "Ms Ragini Abichandani", "cc": "PROJECTS", "hn": "The Suryaa New Delhi", "f": 21468.0, "ni": 3.0, "bd": "2026-05-20"}, {"n": "Mr Savio Monteiro", "cc": "LEGAL", "hn": "The Suryaa New Delhi", "f": 14312.0, "ni": 2.0, "bd": "2026-05-24"}];
 const CI = {};
 function mkChart(id,cfg){if(CI[id])CI[id].destroy();CI[id]=new Chart(document.getElementById(id),cfg);}
-function fmtInr(v){v=Math.round(+v||0);if(!isFinite(v))return'???0';const neg=v<0;v=Math.abs(v);let s=String(v);if(s.length<=3)return(neg?'-':'')+'???'+s;const l3=s.slice(-3);let r=s.slice(0,-3);const p=[];while(r.length>2){p.unshift(r.slice(-2));r=r.slice(0,-2);}if(r)p.unshift(r);return(neg?'-':'')+'???'+p.join(',')+','+l3;}
-function fmtD(d){if(!d)return'???';return new Date(d+'T00:00:00').toLocaleDateString('en-IN',{day:'2-digit',month:'short'});}
-function fmtDL(d){if(!d)return'???';return new Date(d+'T00:00:00').toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});}
+function fmtInr(v){
+  v=Math.round(+v||0);
+  if(!isFinite(v))return'Rs.0';
+  const neg=v<0; v=Math.abs(v);
+  let s=String(v);
+  if(s.length<=3)return(neg?'-':'')+'Rs.'+s;
+  const l3=s.slice(-3);let r=s.slice(0,-3);const p=[];
+  while(r.length>2){p.unshift(r.slice(-2));r=r.slice(0,-2);}
+  if(r)p.unshift(r);
+  return(neg?'-':'')+'Rs.'+p.join(',')+','+l3;
+}
+function fmtD(d){if(!d)return'-';return new Date(d+'T00:00:00').toLocaleDateString('en-IN',{day:'2-digit',month:'short'});}
+function fmtDL(d){if(!d)return'-';return new Date(d+'T00:00:00').toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});}
 const PAL=['#3B82F6','#8B5CF6','#F59E0B','#10B981','#EF4444','#06B6D4','#F97316','#EC4899','#84CC16','#6366F1'];
 const pal=n=>Array.from({length:n},(_,i)=>PAL[i%PAL.length]);
 const topN=(obj,n)=>Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n);
-function applyFilter(){const from=document.getElementById('dateFrom').value;const to=document.getElementById('dateTo').value;const fl=ALL_FL.filter(r=>(!from||r.bd>=from)&&(!to||r.bd<=to));const ho=ALL_HO.filter(r=>(!from||r.bd>=from)&&(!to||r.bd<=to));document.getElementById('rangeLabel').textContent=(from||to)?fmtDL(from)+' ??? '+fmtDL(to):'All Time';updateKPIs(fl,ho);updateCharts(fl,ho);updateTables(fl,ho);updateMoM();}
-function resetFilter(){const dates=[...ALL_FL.map(r=>r.bd),...ALL_HO.map(r=>r.bd)].filter(Boolean).sort();document.getElementById('dateFrom').value=dates[0]||'';document.getElementById('dateTo').value=dates[dates.length-1]||'';applyFilter();}
-function updateKPIs(fl,ho){const ft=fl.reduce((s,r)=>s+r.f,0);const ht=ho.reduce((s,r)=>s+r.f,0);const hn=ho.reduce((s,r)=>s+r.ni,0);const completed=fl.filter(r=>String(r.ts||'').toUpperCase()==='COMPLETED').length;const pending=Math.max(fl.length-completed,0);document.getElementById('kpi-grand').innerHTML=fmtInr(ft+ht);document.getElementById('kpi-flight').innerHTML=fmtInr(ft);document.getElementById('kpi-flight-sub').textContent=fl.length+' bookings';document.getElementById('kpi-hotel').innerHTML=fmtInr(ht);document.getElementById('kpi-hotel-sub').textContent=ho.length+' bookings ?? '+Math.round(hn)+' nights';document.getElementById('kpi-completed').innerHTML=completed;document.getElementById('kpi-completed-sub').textContent=pending+' pending / upcoming';document.getElementById('kpi-avg-hotel').innerHTML=fmtInr(hn?ht/hn:0);document.getElementById('kpi-avg-flight').innerHTML=fmtInr(fl.length?ft/fl.length:0);}
-function hBar(id,labels,data,color){mkChart(id,{type:'bar',data:{labels,datasets:[{data,backgroundColor:color,borderRadius:6,borderSkipped:false}]},options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{ticks:{callback:v=>'???'+Math.round(v/1000)+'k'}},y:{ticks:{font:{size:11}}}}}});}
-function updateCharts(fl,ho){const dF={},dH={},aC={},rC={},hS={};for(const r of fl){dF[r.cc]=(dF[r.cc]||0)+r.f;aC[r.al]=(aC[r.al]||0)+1;if(r.fr&&r.to){const k=r.fr+' ??? '+r.to;rC[k]=(rC[k]||0)+1;}}for(const r of ho){dH[r.cc]=(dH[r.cc]||0)+r.f;hS[r.hn]=(hS[r.hn]||0)+r.f;}const tf=topN(dF,8);hBar('deptFlightChart',tf.map(x=>x[0]),tf.map(x=>Math.round(x[1])),'#3B82F6');const th=topN(dH,8);hBar('deptHotelChart',th.map(x=>x[0]),th.map(x=>Math.round(x[1])),'#F59E0B');const ta=topN(aC,6);mkChart('airlineChart',{type:'doughnut',data:{labels:ta.map(x=>x[0]),datasets:[{data:ta.map(x=>x[1]),backgroundColor:pal(ta.length),borderWidth:0,hoverOffset:8}]},options:{plugins:{legend:{position:'bottom',labels:{font:{size:11}}}},cutout:'55%'}});const tr=topN(rC,6);mkChart('routeChart',{type:'bar',data:{labels:tr.map(x=>x[0]),datasets:[{data:tr.map(x=>x[1]),backgroundColor:'#8B5CF6',borderRadius:6,borderSkipped:false}]},options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{ticks:{stepSize:1}},y:{ticks:{font:{size:10}}}}}});const tho=topN(hS,8);hBar('hotelChart',tho.map(x=>x[0]),tho.map(x=>Math.round(x[1])),'#10B981');}
-function updateTables(fl,ho){const tF={},tH={},tBk={},tCC={};for(const r of fl){tF[r.n]=(tF[r.n]||0)+r.f;tBk[r.n]=(tBk[r.n]||0)+1;if(!tCC[r.n])tCC[r.n]=r.cc;}for(const r of ho){tH[r.n]=(tH[r.n]||0)+r.f;tBk[r.n]=(tBk[r.n]||0)+1;if(!tCC[r.n])tCC[r.n]=r.cc;}const tTot={};new Set([...Object.keys(tF),...Object.keys(tH)]).forEach(t=>tTot[t]=(tF[t]||0)+(tH[t]||0));document.getElementById('travelersBody').innerHTML=topN(tTot,10).map(([t,v],i)=>`<tr><td>${i+1}</td><td>${t}</td><td>${tCC[t]||'???'}</td><td style="text-align:center">${tBk[t]||0}</td><td>${fmtInr(tF[t]||0)}</td><td>${fmtInr(tH[t]||0)}</td><td><b>${fmtInr(v)}</b></td></tr>`).join('');const cF={},cH={};for(const r of fl)cF[r.cc]=(cF[r.cc]||0)+r.f;for(const r of ho)cH[r.cc]=(cH[r.cc]||0)+r.f;const cTot={};new Set([...Object.keys(cF),...Object.keys(cH)]).forEach(c=>cTot[c]=(cF[c]||0)+(cH[c]||0));document.getElementById('costCenterBody').innerHTML=topN(cTot,10).map(([c,v])=>`<tr><td>${c}</td><td>${fmtInr(cF[c]||0)}</td><td>${fmtInr(cH[c]||0)}</td><td><b>${fmtInr(v)}</b></td></tr>`).join('');const rows=[];for(const r of fl){if(!r.bd||!r.dd)continue;const ld=Math.round((new Date(r.dd)-new Date(r.bd))/86400000);rows.push({...r,ld});}rows.sort((a,b)=>a.ld-b.ld);const snc=rows.filter(r=>r.ld<7).length;document.getElementById('shortNoticeLabel').textContent='??? '+snc+' ticket'+(snc!==1?'s':'')+' booked <7 days before travel';document.getElementById('leadTimeBody').innerHTML=rows.map(r=>{const urg=r.ld<7;return`<tr${urg?' style="background:#2D1515"':''}><td>${r.n}</td><td>${r.sc}</td><td>${r.al}</td><td>${fmtD(r.bd)}</td><td>${fmtD(r.dd)}</td><td><span style="font-weight:700;color:${urg?'#FCA5A5':'#86EFAC'}">${urg?'??? ':''}${r.ld} days</span></td><td>${fmtInr(r.f)}</td></tr>`;}).join('');}
-function updateMoM(){const m={};for(const r of ALL_FL){if(!r.bd)continue;const k=r.bd.slice(0,7);if(!m[k])m[k]={fc:0,hc:0,ff:0,hf:0};m[k].fc++;m[k].ff+=r.f;}for(const r of ALL_HO){if(!r.bd)continue;const k=r.bd.slice(0,7);if(!m[k])m[k]={fc:0,hc:0,ff:0,hf:0};m[k].hc++;m[k].hf+=r.f;}const now=new Date();const fyStartYear=now.getMonth()>=3?now.getFullYear():now.getFullYear()-1;const keys=[];for(let i=0;i<12;i++){const d=new Date(fyStartYear,3+i,1);keys.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'));}keys.forEach(k=>{if(!m[k])m[k]={fc:0,hc:0,ff:0,hf:0};});const labels=keys.map(k=>{const[y,mo]=k.split('-');return new Date(+y,+mo-1).toLocaleDateString('en-IN',{month:'short',year:'2-digit'});});mkChart('momChart',{data:{labels,datasets:[{type:'bar',label:'Flight Spend',data:keys.map(k=>Math.round(m[k].ff)),backgroundColor:'rgba(59,130,246,0.75)',borderRadius:4},{type:'bar',label:'Hotel Spend',data:keys.map(k=>Math.round(m[k].hf)),backgroundColor:'rgba(245,158,11,0.75)',borderRadius:4},{type:'line',label:'Total Spend',data:keys.map(k=>Math.round(m[k].ff+m[k].hf)),borderColor:'#10B981',backgroundColor:'rgba(16,185,129,0.08)',tension:0.4,fill:false,pointRadius:5,pointBackgroundColor:'#10B981',borderWidth:2}]},options:{plugins:{legend:{position:'bottom',labels:{font:{size:12},color:'#94A3B8'}}},scales:{y:{title:{display:true,text:'Spend (???)',color:'#64748B'},ticks:{callback:v=>'???'+Math.round(v/1000)+'k',color:'#64748B'},grid:{color:'#1E293B'},beginAtZero:true},x:{grid:{color:'#1E293B'},ticks:{color:'#64748B'}}}}});}
-window.addEventListener('load',()=>{Chart.defaults.color='#94A3B8';Chart.defaults.borderColor='#334155';Chart.defaults.font.family="'Segoe UI', system-ui, sans-serif";resetFilter();});
+function applyFilter(){
+  const from=document.getElementById('dateFrom').value;
+  const to=document.getElementById('dateTo').value;
+  const fl=ALL_FL.filter(r=>(!from||r.bd>=from)&&(!to||r.bd<=to));
+  const ho=ALL_HO.filter(r=>(!from||r.bd>=from)&&(!to||r.bd<=to));
+  document.getElementById('rangeLabel').textContent=(from||to)?fmtDL(from)+' - '+fmtDL(to):'All Time';
+  updateKPIs(fl,ho);updateCharts(fl,ho);updateTables(fl,ho);updateMoM();
+}
+function resetFilter(){
+  const dates=[...ALL_FL.map(r=>r.bd),...ALL_HO.map(r=>r.bd)].filter(Boolean).sort();
+  document.getElementById('dateFrom').value=dates[0]||'';
+  document.getElementById('dateTo').value=dates[dates.length-1]||'';
+  applyFilter();
+}
+function updateKPIs(fl,ho){
+  const ft=fl.reduce((s,r)=>s+r.f,0);
+  const ht=ho.reduce((s,r)=>s+r.f,0);
+  const hn=ho.reduce((s,r)=>s+r.ni,0);
+  const completed=fl.filter(r=>String(r.ts||'').toUpperCase()==='COMPLETED').length;
+  const pending=Math.max(fl.length-completed,0);
+  document.getElementById('kpi-grand').textContent=fmtInr(ft+ht);
+  document.getElementById('kpi-flight').textContent=fmtInr(ft);
+  document.getElementById('kpi-flight-sub').textContent=fl.length+' bookings';
+  document.getElementById('kpi-hotel').textContent=fmtInr(ht);
+  document.getElementById('kpi-hotel-sub').textContent=ho.length+' bookings / '+Math.round(hn)+' nights';
+  document.getElementById('kpi-completed').textContent=completed;
+  document.getElementById('kpi-completed-sub').textContent=pending+' pending / upcoming';
+  document.getElementById('kpi-avg-hotel').textContent=fmtInr(hn?ht/hn:0);
+  document.getElementById('kpi-avg-flight').textContent=fmtInr(fl.length?ft/fl.length:0);
+}
+function hBar(id,labels,data,color){
+  mkChart(id,{type:'bar',data:{labels,datasets:[{data,backgroundColor:color,borderRadius:6,borderSkipped:false}]},
+    options:{indexAxis:'y',plugins:{legend:{display:false}},
+      scales:{x:{ticks:{callback:v=>'Rs.'+Math.round(v/1000)+'k'}},y:{ticks:{font:{size:11}}}}}});
+}
+function updateCharts(fl,ho){
+  const dF={},dH={},aC={},rC={},hS={};
+  for(const r of fl){dF[r.cc]=(dF[r.cc]||0)+r.f;aC[r.al]=(aC[r.al]||0)+1;if(r.fr&&r.to){const k=r.fr+' to '+r.to;rC[k]=(rC[k]||0)+1;}}
+  for(const r of ho){dH[r.cc]=(dH[r.cc]||0)+r.f;hS[r.hn]=(hS[r.hn]||0)+r.f;}
+  const tf=topN(dF,8);hBar('deptFlightChart',tf.map(x=>x[0]),tf.map(x=>Math.round(x[1])),'#3B82F6');
+  const th=topN(dH,8);hBar('deptHotelChart',th.map(x=>x[0]),th.map(x=>Math.round(x[1])),'#F59E0B');
+  const ta=topN(aC,6);
+  mkChart('airlineChart',{type:'doughnut',data:{labels:ta.map(x=>x[0]),datasets:[{data:ta.map(x=>x[1]),backgroundColor:pal(ta.length),borderWidth:0,hoverOffset:8}]},options:{plugins:{legend:{position:'bottom',labels:{font:{size:11}}}},cutout:'55%'}});
+  const tr=topN(rC,6);
+  mkChart('routeChart',{type:'bar',data:{labels:tr.map(x=>x[0]),datasets:[{data:tr.map(x=>x[1]),backgroundColor:'#8B5CF6',borderRadius:6,borderSkipped:false}]},options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{ticks:{stepSize:1}},y:{ticks:{font:{size:10}}}}}});
+  const tho=topN(hS,8);hBar('hotelChart',tho.map(x=>x[0]),tho.map(x=>Math.round(x[1])),'#10B981');
+}
+function updateTables(fl,ho){
+  const tF={},tH={},tBk={},tCC={};
+  for(const r of fl){tF[r.n]=(tF[r.n]||0)+r.f;tBk[r.n]=(tBk[r.n]||0)+1;if(!tCC[r.n])tCC[r.n]=r.cc;}
+  for(const r of ho){tH[r.n]=(tH[r.n]||0)+r.f;tBk[r.n]=(tBk[r.n]||0)+1;if(!tCC[r.n])tCC[r.n]=r.cc;}
+  const tTot={};new Set([...Object.keys(tF),...Object.keys(tH)]).forEach(t=>tTot[t]=(tF[t]||0)+(tH[t]||0));
+  document.getElementById('travelersBody').innerHTML=topN(tTot,10).map(([t,v],i)=>
+    '<tr><td>'+(i+1)+'</td><td>'+t+'</td><td>'+(tCC[t]||'-')+'</td><td style="text-align:center">'+(tBk[t]||0)+'</td><td>'+fmtInr(tF[t]||0)+'</td><td>'+fmtInr(tH[t]||0)+'</td><td><b>'+fmtInr(v)+'</b></td></tr>'
+  ).join('');
+  const cF={},cH={};
+  for(const r of fl)cF[r.cc]=(cF[r.cc]||0)+r.f;
+  for(const r of ho)cH[r.cc]=(cH[r.cc]||0)+r.f;
+  const cTot={};new Set([...Object.keys(cF),...Object.keys(cH)]).forEach(c=>cTot[c]=(cF[c]||0)+(cH[c]||0));
+  document.getElementById('costCenterBody').innerHTML=topN(cTot,10).map(([c,v])=>
+    '<tr><td>'+c+'</td><td>'+fmtInr(cF[c]||0)+'</td><td>'+fmtInr(cH[c]||0)+'</td><td><b>'+fmtInr(v)+'</b></td></tr>'
+  ).join('');
+  const rows=[];
+  for(const r of fl){if(!r.bd||!r.dd)continue;const ld=Math.round((new Date(r.dd)-new Date(r.bd))/86400000);rows.push({...r,ld});}
+  rows.sort((a,b)=>a.ld-b.ld);
+  const snc=rows.filter(r=>r.ld<7).length;
+  document.getElementById('shortNoticeLabel').textContent='! '+snc+' ticket'+(snc!==1?'s':'')+' booked <7 days before travel';
+  document.getElementById('leadTimeBody').innerHTML=rows.map(r=>{
+    const urg=r.ld<7;
+    return '<tr'+(urg?' style="background:#2D1515"':'')+'><td>'+r.n+'</td><td>'+r.sc+'</td><td>'+r.al+'</td><td>'+fmtD(r.bd)+'</td><td>'+fmtD(r.dd)+'</td>'+
+      '<td><span style="font-weight:700;color:'+(urg?'#FCA5A5':'#86EFAC')+'">'+(urg?'! ':'')+r.ld+' days</span></td>'+
+      '<td>'+fmtInr(r.f)+'</td></tr>';
+  }).join('');
+}
+function updateMoM(){
+  const m={};
+  for(const r of ALL_FL){if(!r.bd)continue;const k=r.bd.slice(0,7);if(!m[k])m[k]={fc:0,hc:0,ff:0,hf:0};m[k].fc++;m[k].ff+=r.f;}
+  for(const r of ALL_HO){if(!r.bd)continue;const k=r.bd.slice(0,7);if(!m[k])m[k]={fc:0,hc:0,ff:0,hf:0};m[k].hc++;m[k].hf+=r.f;}
+  const now=new Date();
+  const fyStartYear=now.getMonth()>=3?now.getFullYear():now.getFullYear()-1;
+  const keys=[];
+  for(let i=0;i<12;i++){const d=new Date(fyStartYear,3+i,1);keys.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'));}
+  keys.forEach(k=>{if(!m[k])m[k]={fc:0,hc:0,ff:0,hf:0};});
+  const labels=keys.map(k=>{const[y,mo]=k.split('-');return new Date(+y,+mo-1).toLocaleDateString('en-IN',{month:'short',year:'2-digit'});});
+  mkChart('momChart',{data:{labels,datasets:[
+    {type:'bar',label:'Flight Spend',data:keys.map(k=>Math.round(m[k].ff)),backgroundColor:'rgba(59,130,246,0.75)',borderRadius:4},
+    {type:'bar',label:'Hotel Spend',data:keys.map(k=>Math.round(m[k].hf)),backgroundColor:'rgba(245,158,11,0.75)',borderRadius:4},
+    {type:'line',label:'Total Spend',data:keys.map(k=>Math.round(m[k].ff+m[k].hf)),borderColor:'#10B981',backgroundColor:'rgba(16,185,129,0.08)',tension:0.4,fill:false,pointRadius:5,pointBackgroundColor:'#10B981',borderWidth:2}
+  ]},options:{plugins:{legend:{position:'bottom',labels:{font:{size:12},color:'#94A3B8'}}},
+    scales:{y:{title:{display:true,text:'Spend (Rs.)',color:'#64748B'},ticks:{callback:v=>'Rs.'+Math.round(v/1000)+'k',color:'#64748B'},grid:{color:'#1E293B'},beginAtZero:true},
+            x:{grid:{color:'#1E293B'},ticks:{color:'#64748B'}}}}});
+}
+window.addEventListener('load',()=>{
+  Chart.defaults.color='#94A3B8';
+  Chart.defaults.borderColor='#334155';
+  Chart.defaults.font.family="'Segoe UI', system-ui, sans-serif";
+  resetFilter();
+});
 </script>
 </body>
 </html>
